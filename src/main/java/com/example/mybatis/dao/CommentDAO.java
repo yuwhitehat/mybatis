@@ -8,21 +8,41 @@ import java.util.List;
 @Mapper
 public interface CommentDAO {
 
-    @Insert("insert into comment (ref_id, user_id, content, parent_id, gmt_created, gmt_modified) values (#{refId}, #{userId}, #{content}, #{parentId}, now(),now())")
-    @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
+    /**
+     * xml中配置
+     * @param commentDO
+     * @return
+     */
     int insert(CommentDO commentDO);
 
-
-    @Select("select id,ref_id as refId, user_id as userId, content, parent_id as parentId,gmt_created as gmtCreated, gmt_modified as gmtModified from comment")
-    List<CommentDO> findAll();
-
-    @Update("update comment set content=#{content}, gmt_modified=now() where id=#{id}")
+    /**
+     * 修改评论
+     * @param commentDO
+     * @return
+     */
     int update(CommentDO commentDO);
 
-    @Delete("delete from comment where id=#{id}")
+    /**
+     * 删除评论
+     * @param id
+     * @return
+     */
     int delete(@Param("id") long id);
 
-    @Select("select * from comment where ref_id=#{refId}")
+    /**
+     * 根据ref_id 查询
+     * @param refId
+     * @return
+     */
     List<CommentDO> findByRefId(@Param("refId") String refId);
+
+    /**
+     * 查询所有的评论
+     * @return
+     */
+    List<CommentDO> findAll();
+
+
+
 
 }

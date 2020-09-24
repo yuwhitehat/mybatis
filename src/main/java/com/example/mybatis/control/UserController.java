@@ -25,7 +25,7 @@ public class UserController {
     @PostMapping("/user")
     @ResponseBody
     public UserDO save(@RequestBody UserDO userDO) {
-        userDAO.insert(userDO);
+        userDAO.add(userDO);
         return userDO;
     }
 
@@ -46,6 +46,11 @@ public class UserController {
     @ResponseBody
     public UserDO findByUserName(@RequestParam("userName") String userName){
         return userDAO.findByUserName(userName);
+    }
+    @GetMapping("/user/query")
+    @ResponseBody
+    public List<UserDO> query(@RequestParam("keyWord") String keyWord){
+        return userDAO.query(keyWord);
     }
 
 }

@@ -8,21 +8,44 @@ import java.util.List;
 @Mapper
 public interface UserDAO {
 
-    @Select("select id, user_name as user,pwd, nick_name as nickName, avatar,gmt_Created as gmtCreated,gmt_modified as gmtModified from user")
-    List<UserDO> findAll();
 
-    @Insert("insert into user (use_name, pwd, nick_name, avatar, gmt_created, gmt_modified) values (#{userName}, #{pwd}, #{nickName}, #{avatar}, now(), now())")
-    @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
-    int insert(UserDO userDO);
+    /**
+     * 不加注解，xml配置，插入
+     */
+    int add(UserDO userDO);
 
-    @Update("update user set nick_name=#{nickName},gmt_modified=now() where id=#{id}")
+    /**
+     * 修改
+     * @param userDO
+     * @return
+     */
     int update(UserDO userDO);
 
-    @Delete("delete from user where id=#{id}")
+    /**
+     * 删除
+     * @param id
+     * @return
+     */
     int delete(@Param("id") long id);
 
-    @Select("select id, user_name as userName, pwd, nick_name as nickName, avatar, gmt_created as gmtCreated, gmt_modified as gmtModified from user where user_name=#{userName} limit 1")
+    /**
+     * 查询所有
+     * @return
+     */
+    List<UserDO> findAll();
+
+    /**
+     * 根据名字查询
+     * @param name
+     * @return
+     */
     UserDO findByUserName(@Param("userName") String name);
 
+    /**
+     * 模糊查询，通过user_name或者nick_name查找用户
+     * @param keyWord
+     * @return
+     */
+    List<UserDO> query (@Param("keyWord") String keyWord);
 
 }
