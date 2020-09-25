@@ -2,6 +2,7 @@ package com.example.mybatis.dao;
 
 import com.example.mybatis.dataobject.CommentDO;
 import org.apache.ibatis.annotations.*;
+import org.mybatis.spring.annotation.MapperScan;
 
 import java.util.List;
 

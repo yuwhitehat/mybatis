@@ -2,6 +2,9 @@ package com.example.mybatis.control;
 
 import com.example.mybatis.dao.CommentDAO;
 import com.example.mybatis.dataobject.CommentDO;
+import com.example.mybatis.model.Paging;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +18,18 @@ public class CommentController {
 
     @GetMapping("/comments")
     @ResponseBody
-    public List<CommentDO> getAll() {
-        return commentDAO.findAll();
+    public Paging<CommentDO> getAll(@RequestParam(value = "pageNum", required = false) Integer pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+        if (pageNum == null) {
+            pageNum = 1;
+        }
+        if (pageSize == null) {
+            pageSize = 15;
+        }
+
+        Page<CommentDO> page = PageHelper.startPage(pageNum, pageSize).doSelectPage(() -> commentDAO.findAll());
+        return new Paging<>(page.getPageNum(), page.getPageSize(), page.getPages(), page.getTotal(), page
+                .getResult());
+
     }
     @PostMapping("/comment")
     @ResponseBody

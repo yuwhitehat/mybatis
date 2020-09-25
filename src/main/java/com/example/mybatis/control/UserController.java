@@ -2,6 +2,9 @@ package com.example.mybatis.control;
 
 import com.example.mybatis.dao.UserDAO;
 import com.example.mybatis.dataobject.UserDO;
+import com.example.mybatis.model.Paging;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -20,8 +23,19 @@ public class UserController {
 
     @GetMapping("/users")
     @ResponseBody
-    public List<UserDO> getAll() {
-        return userDAO.findAll();
+    public Paging<UserDO> getAll(@RequestParam(value = "pageNum", required = false) Integer pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+        if (pageNum == null) {
+            pageNum = 1;
+        }
+        if (pageSize == null) {
+            pageSize = 15;
+        }
+
+        // 设置当前页数为pageNum，以及每页pageSize条记录
+        Page<UserDO> page = PageHelper.startPage(pageNum, pageSize).doSelectPage(() -> userDAO.findAll());
+
+        return new Paging<>(page.getPageNum(), page.getPageSize(), page.getPages(), page.getTotal(), page
+                .getResult());
     }
 
     @PostMapping("/user")
