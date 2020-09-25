@@ -42,6 +42,19 @@ public interface CommentDAO {
      */
     List<CommentDO> findAll();
 
+    /**
+     * 批量插入
+     * @param commentDOS
+     * @return
+     */
+    int batchAdd(@Param("list") List<CommentDO> commentDOS);
+
+    /**
+     * 通过user_id查询多条comment
+     * @param ids
+     * @return
+     */
+    List<CommentDO> findByUserIds(@Param("userIds") List<Long> ids);
 
 
 

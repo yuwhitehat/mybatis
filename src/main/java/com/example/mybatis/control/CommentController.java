@@ -41,4 +41,17 @@ public class CommentController {
     public List<CommentDO> findByRefId(@RequestParam("refId") String refId){
         return commentDAO.findByRefId(refId);
     }
+    @GetMapping("/comment/batchAdd")
+    @ResponseBody
+    public List<CommentDO> batchAdd(@RequestParam("list") List<CommentDO> commentDOS){
+        commentDAO.batchAdd(commentDOS);
+        return commentDOS;
+    }
+
+    @GetMapping("/comment/findByUserIds")
+    @ResponseBody
+    public List<CommentDO> findByUserIds(@RequestParam("userIds") List<Long> ids) {
+        return commentDAO.findByUserIds(ids);
+    }
+
 }

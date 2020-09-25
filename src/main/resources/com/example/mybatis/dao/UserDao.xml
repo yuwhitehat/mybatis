@@ -18,7 +18,13 @@
     </insert>
 
     <update id="update" parameterType="com.example.mybatis.dataobject.UserDO">
-        update user set nick_name=#{nickName}, gmt_modified=now() where id=#{id}
+        update user
+        <set>
+            <if test="nickName != null">
+                nick_name=#{nickName}, gmt_modified=now()
+            </if>
+        </set>
+         where id=#{id}
     </update>
 
     <delete id="delete">
@@ -37,5 +43,41 @@
         select * from user where user_name like concat('%', #{keyWord}, '%')
         or nick_name like concat('%', #{keyWord}, '%')
     </select>
+
+    <select id="search" resultMap="userResultMap">
+        select * from user
+        <where>
+            <if test="keyWord != null">
+                user_name like concat('%', #{keyWord},'%')
+                or nick_name like concat('%', #{keyWord},'%')
+            </if>
+            <if test="startTime != null">
+                and gmt_created <![CDATA[ >= ]]> #{startTime}
+            </if>
+            <if test="endTime != null">
+                and gmt_created <![CDATA[ <= ]]> #{endTime}
+            </if>
+        </where>
+
+    </select>
+
+    <insert id="batchAdd" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into user (user_name, pwd, nick_name, avatar, gmt_created, gmt_modified)
+        values
+        <foreach collection="list" item="it" index="index" separator=",">
+            (#{it.userName}, #{it.pwd}, #{it.nickName}, #{it.avatar}, now(), now())
+        </foreach>
+    </insert>
+
+    <select id="findByIds" resultMap="userResultMap">
+        select * from user
+        <where>
+            id in
+            <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </select>
+
 
 </mapper>

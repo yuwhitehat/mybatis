@@ -3,6 +3,7 @@ package com.example.mybatis.dao;
 import com.example.mybatis.dataobject.UserDO;
 import org.apache.ibatis.annotations.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -47,5 +48,27 @@ public interface UserDAO {
      * @return
      */
     List<UserDO> query (@Param("keyWord") String keyWord);
+
+    /**
+     * 查找某个时间之后注册的用户
+     * @param keyWord
+     * @return
+     */
+    List<UserDO> search(@Param("keyWord") String keyWord, @Param("startTime")LocalDateTime startTime,
+                        @Param("endTime") LocalDateTime endTime);
+
+    /**
+     * 批量插入user
+     * @param userDOS
+     * @return
+     */
+    int batchAdd(@Param("list") List<UserDO> userDOS);
+
+    /**
+     * 查询多个用户信息
+     * @param ids
+     * @return
+     */
+    List<UserDO> findByIds(@Param("ids") List<Long> ids);
 
 }

@@ -3,9 +3,11 @@ package com.example.mybatis.control;
 import com.example.mybatis.dao.UserDAO;
 import com.example.mybatis.dataobject.UserDO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -51,6 +53,14 @@ public class UserController {
     @ResponseBody
     public List<UserDO> query(@RequestParam("keyWord") String keyWord){
         return userDAO.query(keyWord);
+    }
+    @GetMapping("/user/search")
+    @ResponseBody
+    public List<UserDO> search(@RequestParam("keyWord") String keyWord,
+                               @RequestParam("startTime") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")LocalDateTime startTime,
+                               @RequestParam("endTime") @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime endTime){
+        return userDAO.search(keyWord, startTime, endTime);
+
     }
 
 }
