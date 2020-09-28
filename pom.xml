@@ -59,6 +59,12 @@
 			<artifactId>commons-codec</artifactId>
 			<version>1.14</version>
 		</dependency>
+		<!--对HTML进行转义-->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-text</artifactId>
+			<version>1.8</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>

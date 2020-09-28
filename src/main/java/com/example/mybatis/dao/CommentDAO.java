@@ -1,6 +1,7 @@
 package com.example.mybatis.dao;
 
 import com.example.mybatis.dataobject.CommentDO;
+import com.example.mybatis.model.Comment;
 import org.apache.ibatis.annotations.*;
 import org.mybatis.spring.annotation.MapperScan;
 
@@ -35,7 +36,7 @@ public interface CommentDAO {
      * @param refId
      * @return
      */
-    List<CommentDO> findByRefId(@Param("refId") String refId);
+    List<Comment> findByRefId(@Param("refId") String refId);
 
     /**
      * 查询所有的评论

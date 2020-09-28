@@ -2,6 +2,7 @@ package com.example.mybatis.control;
 
 import com.example.mybatis.dao.CommentDAO;
 import com.example.mybatis.dataobject.CommentDO;
+import com.example.mybatis.model.Comment;
 import com.example.mybatis.model.Paging;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -31,12 +32,14 @@ public class CommentController {
                 .getResult());
 
     }
+
     @PostMapping("/comment")
     @ResponseBody
     public CommentDO save(@RequestBody  CommentDO commentDO){
         commentDAO.insert(commentDO);
         return commentDO;
     }
+
     @PostMapping("comment/update")
     @ResponseBody
     public CommentDO update(@RequestBody CommentDO commentDO) {
@@ -49,11 +52,13 @@ public class CommentController {
     public boolean delete(@RequestParam("id") Long id){
         return commentDAO.delete(id) > 0;
     }
+
     @GetMapping("/comment/findByRefId")
     @ResponseBody
-    public List<CommentDO> findByRefId(@RequestParam("refId") String refId){
+    public List<Comment> findByRefId(@RequestParam("refId") String refId){
         return commentDAO.findByRefId(refId);
     }
+
     @GetMapping("/comment/batchAdd")
     @ResponseBody
     public List<CommentDO> batchAdd(@RequestParam("list") List<CommentDO> commentDOS){
