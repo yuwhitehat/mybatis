@@ -3,6 +3,8 @@ package com.example.mybatis.control;
 import com.example.mybatis.dao.UserDAO;
 import com.example.mybatis.dataobject.UserDO;
 import com.example.mybatis.model.Paging;
+import com.example.mybatis.model.Result;
+import com.example.mybatis.model.User;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,9 @@ public class UserController {
 
     @GetMapping("/users")
     @ResponseBody
-    public Paging<UserDO> getAll(@RequestParam(value = "pageNum", required = false) Integer pageNum, @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+    public Result<Paging<UserDO>> getAll(@RequestParam(value = "pageNum", required = false) Integer pageNum,
+                                       @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+        Result<Paging<UserDO>> result = new Result<>();
         if (pageNum == null) {
             pageNum = 1;
         }
@@ -34,8 +38,11 @@ public class UserController {
         // 设置当前页数为pageNum，以及每页pageSize条记录
         Page<UserDO> page = PageHelper.startPage(pageNum, pageSize).doSelectPage(() -> userDAO.findAll());
 
-        return new Paging<>(page.getPageNum(), page.getPageSize(), page.getPages(), page.getTotal(), page
-                .getResult());
+        result.setSuccess(true);
+        result.setData(new Paging<>(page.getPageNum(), page.getPageSize(), page.getPages(), page.getTotal(), page
+                .getResult()));
+
+        return result;
     }
 
     @PostMapping("/user")

@@ -1,40 +1,30 @@
-package com.example.mybatis.dataobject;
+package com.example.mybatis.model;
 
-import com.example.mybatis.model.User;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.NullSerializer;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 
 import java.time.LocalDateTime;
 
-public class UserDO {
+public class User {
 
     private long id;
 
     private String userName;
 
+    @JsonSerialize(using = NullSerializer.class)
     private String pwd;
 
     private String nickName;
 
     private String avatar;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime gmtCreated;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime gmtModified;
-
-    /**
-     * DO 转化为 Model
-     * @return
-     */
-    public User toModel() {
-        User user = new User();
-        user.setId(getId());
-        user.setUserName(getUserName());
-        user.setNickName(getNickName());
-        user.setAvatar(getAvatar());
-        user.setGmtCreated(getGmtCreated());
-        user.setGmtModified(getGmtModified());
-        return user;
-    }
-
 
     public long getId() {
         return id;

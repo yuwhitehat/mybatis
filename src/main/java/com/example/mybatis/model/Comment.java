@@ -1,41 +1,27 @@
-package com.example.mybatis.dataobject;
-import com.example.mybatis.model.Comment;
-import com.example.mybatis.model.User;
+package com.example.mybatis.model;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class CommentDO {
+public class Comment {
+
     private long id;
 
     private String refId;
 
-    private long userId;
+    private User author;
 
     private String content;
 
-    private long parentId;
+    private List<Comment> children;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime gmtCreated;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime gmtModified;
-
-    /**
-     * DO -> model
-     * @return
-     */
-    public Comment toModel(){
-        User user = new User();
-        user.setId(getUserId());
-        Comment comment = new Comment();
-        comment.setId(getId());
-        comment.setRefId(getRefId());
-        comment.setAuthor(user);
-        comment.setContent(getContent());
-        comment.setGmtCreated(getGmtCreated());
-        comment.setGmtModified(getGmtModified());
-        return comment;
-    }
 
     public long getId() {
         return id;
@@ -53,12 +39,12 @@ public class CommentDO {
         this.refId = refId;
     }
 
-    public long getUserId() {
-        return userId;
+    public User getAuthor() {
+        return author;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setAuthor(User author) {
+        this.author = author;
     }
 
     public String getContent() {
@@ -69,12 +55,12 @@ public class CommentDO {
         this.content = content;
     }
 
-    public long getParentId() {
-        return parentId;
+    public List<Comment> getChildren() {
+        return children;
     }
 
-    public void setParentId(long parentId) {
-        this.parentId = parentId;
+    public void setChildren(List<Comment> children) {
+        this.children = children;
     }
 
     public LocalDateTime getGmtCreated() {
